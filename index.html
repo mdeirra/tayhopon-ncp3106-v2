@@ -1273,18 +1273,15 @@
             </div>
         </div>
     </nav>
-    <!-- Floating Resume Button -->
-<div id="resume-popup-btn" style="display: none; position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: var(--primary-gradient, linear-gradient(135deg, #f472b6, #6366f1)); color: #fff; border-radius: 50px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); padding: 0.75rem 1.5rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.2s; pointer-events: auto;">
-  <i class="fas fa-file-alt" style="margin-right: 8px;"></i>
-</div>
-
-<!-- Resume Modal -->
-<div id="resume-modal" style="display: none; position: fixed; bottom: 0; right: 0; z-index: 10000; width: 90vw; max-width: 420px; height: 70vh; background: var(--card-bg, #fff); border-radius: 24px 0 0 0; box-shadow: 0 8px 32px rgba(0,0,0,0.18); padding: 2rem 1rem 1rem 1rem; overflow: auto; animation: resumeModalIn 0.3s; pointer-events: auto;">
-  <button onclick="document.getElementById('resume-modal').style.display='none'" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.5rem; color: var(--text-primary, #222); cursor: pointer;">&times;</button>
-  <h3 style="margin-bottom: 1rem; color: var(--text-primary, #222); font-size: 1.25rem; font-weight: 700;">My Resume</h3>
-  <div style="height: 55vh; overflow: auto;">
-    <iframe src="/assets/Tayhopon_Resume.pdf" width="100%" height="100%" style="border: none;"></iframe>
-  </div>
+    <!-- Floating Resume Download Button -->
+<div id="resume-download-btn"
+    style="display: none; position: fixed; bottom: 32px; right: 32px; z-index: 9999; background: rgba(139,167,110,1); color: #fff; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); padding: 0.75rem 1.5rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: width 0.2s, background 0.2s, color 0.2s; width: 48px; height: 48px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+  <span id="resume-download-icon" style="display: flex; align-items: center; justify-content: center;">
+    <!-- File icon when collapsed, download icon when expanded -->
+    <i id="resume-file-icon" class="fas fa-file" style="font-size: 2rem; color: #222;"></i>
+    <i id="resume-download-icon-expanded" class="fas fa-file-download" style="font-size: 1.5rem; color: #fff; display: none;"></i>
+  </span>
+  <span id="resume-download-text" style="margin-left: 12px; white-space: nowrap; opacity: 0; transition: opacity 0.2s;">Download Resume</span>
 </div>
     <script>
         // Theme Toggle Functionality
@@ -1729,28 +1726,71 @@
             offset: 100
         });
         (function() {
-      // Show button when scrolled down 400px
-      window.addEventListener('scroll', function() {
-        var btn = document.getElementById('resume-popup-btn');
-        if (window.scrollY > 400) {
-          btn.style.display = 'block';
-        } else {
-          btn.style.display = 'none';
-          document.getElementById('resume-modal').style.display = 'none';
-        }
-      });
-      // Open modal
-      document.getElementById('resume-popup-btn').onclick = function() {
-        document.getElementById('resume-modal').style.display = 'block';
-      };
-      // Optional: close modal when clicking outside
-      window.addEventListener('click', function(e) {
-        const modal = document.getElementById('resume-modal');
-        const btn = document.getElementById('resume-popup-btn');
-        if (modal.style.display === 'block' && !modal.contains(e.target) && e.target !== btn) {
-          modal.style.display = 'none';
-        }
-      });
+    // Show button when scrolled down 400px
+    window.addEventListener('scroll', function() {
+      var btn = document.getElementById('resume-download-btn');
+      if (window.scrollY > 400) {
+        btn.style.display = 'flex';
+      } else {
+        btn.style.display = 'none';
+      }
+    });
+
+    // Theme color update
+    function updateResumeBtnTheme() {
+      const btn = document.getElementById('resume-download-btn');
+      const fileIcon = document.getElementById('resume-file-icon');
+      const downloadIcon = document.getElementById('resume-download-icon-expanded');
+      const theme = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
+      if (theme === 'dark') {
+        btn.style.background = 'rgba(75,13,14,1)'; // red
+        btn.style.color = '#fff';
+        fileIcon.style.color = '#fff';
+        downloadIcon.style.color = '#fff';
+      } else {
+        btn.style.background = 'rgba(191,162,168,1)'; // pink
+        btn.style.color = '#222';
+        fileIcon.style.color = '#222';
+        downloadIcon.style.color = '#222';
+      }
+    }
+    // Call on theme change
+    document.addEventListener('DOMContentLoaded', updateResumeBtnTheme);
+    document.getElementById('theme-toggle').addEventListener('click', updateResumeBtnTheme);
+    document.getElementById('mobile-theme-toggle').addEventListener('click', updateResumeBtnTheme);
+
+    // Hover effect: expand button and show text, swap icon
+    const btn = document.getElementById('resume-download-btn');
+    const text = document.getElementById('resume-download-text');
+    const fileIcon = document.getElementById('resume-file-icon');
+    const downloadIcon = document.getElementById('resume-download-icon-expanded');
+    btn.addEventListener('mouseenter', function() {
+      btn.style.width = '220px';
+      btn.style.background = 'rgba(101,89,89,1)';
+      btn.style.color = '#fff';
+      fileIcon.style.color = '#fff';
+      downloadIcon.style.color = '#fff';
+      text.style.opacity = '1';
+      fileIcon.style.display = 'none';
+      downloadIcon.style.display = 'inline-block';
+    });
+    btn.addEventListener('mouseleave', function() {
+      btn.style.width = '48px';
+      updateResumeBtnTheme();
+      text.style.opacity = '0';
+      fileIcon.style.display = 'inline-block';
+      downloadIcon.style.display = 'none';
+    });
+
+    // Download resume on click
+    btn.addEventListener('click', function() {
+      const link = document.createElement('a');
+      link.href = '/assets/Tayhopon_Resume.pdf'; // Update path if needed
+      link.download = 'Tayhopon_Resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
     })();
     </script>
 </body>
