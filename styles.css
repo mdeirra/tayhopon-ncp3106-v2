@@ -369,54 +369,6 @@ body {
             transform: rotate(180deg);
         }
 
-        /* Ticker */
-        .ticker-container {
-        position: relative;
-        overflow: hidden;
-        white-space: nowrap;
-        padding: 20px 0;
-        }
-        .ticker-container::before,
-        .ticker-container::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 32px; /* fade width */
-        pointer-events: none;
-        z-index: 2;
-        }
-        .ticker-container::before {
-        left: 0;
-        background: linear-gradient(to right, var(--transparent), transparent);
-        }
-        .ticker-container::after {
-        right: 0;
-        background: linear-gradient(to left, var(--transparent), transparent);
-        }
-       .ticker-text {
-        display: inline-flex;
-        align-items: center;
-        gap: 50px;          /* spacing between images */
-        flex-wrap: nowrap;  /* stay on one line */
-        padding-left: 100%;
-        animation: ticker 40s linear infinite;
-        }
-
-        .ticker-img {
-        width: auto;
-        height: 60px;
-        max-width: 80px;
-        object-fit: contain;
-        flex: 0 0 auto;     /* don't shrink */
-        }
-
-        .ticker-img:last-child { margin-right: 0; }
-        @keyframes ticker {
-        from { transform: translateX(0); }
-        to   { transform: translateX(-100%); }
-        }
-
         /* Educational (Services-style) accordion */
         .edu-wrap{position:relative;isolation:isolate}
         .edu-accent{height:6px;width:160px;margin:12px auto 0;border-radius:9999px;background:linear-gradient(90deg,var(--primary-text),var(--primary-bg),var(--primary-text));background-size:200% 100%;animation:eduBar 4s linear infinite}
@@ -645,71 +597,6 @@ body {
             color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 600;
-        }
-
-        /* FAQs Styles */
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-            background: var(--card-bg);
-            transition: all 0.3s ease;
-        }
-
-        .faq-item:hover {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .faq-question {
-            width: 100%;
-            padding: 1.5rem;
-            background: none;
-            border: none;
-            text-align: left;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: rgba(var(--primary-rgb), 0.05);
-        }
-
-        .faq-question.active {
-            background: rgba(var(--primary-rgb), 0.08);
-            color: var(--primary-bg);
-        }
-
-        .faq-icon {
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-            color: var(--primary-bg);
-            flex-shrink: 0;
-            margin-left: 1rem;
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--bg-primary);
-        }
-
-        .faq-answer-content {
-            padding: 1.5rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
         }
 
         /* Contact Form Styles */
@@ -1173,64 +1060,6 @@ body {
   margin-right: 8px;
 }
 
-/* Enhanced ticker styles */
-.ticker-container {
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 30px 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-  border-radius: 16px;
-  margin-bottom: 40px;
-}
-
-.ticker-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 40px;
-  flex-wrap: nowrap;
-  padding-left: 100%;
-  animation: ticker 50s linear infinite;
-}
-
-.ticker-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  transition: transform 0.3s ease;
-}
-
-.ticker-item:hover {
-  transform: scale(1.1);
-}
-
-.ticker-img {
-  width: auto;
-  height: 60px;
-  max-width: 80px;
-  object-fit: contain;
-  transition: all 0.3s ease;
-}
-
-.ticker-img:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  transform: rotate(5deg);
-}
-
-.ticker-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-align: center;
-  white-space: nowrap;
-}
-
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
-}
-
 /* Call to action section */
 .cta-section {
   text-align: center;
@@ -1266,27 +1095,6 @@ body {
   box-shadow: 0 12px 32px rgba(236, 72, 153, 0.4);
 }
 
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .project-actions {
-    flex-direction: column;
-  }
-  
-  .ticker-container {
-    padding: 20px 0;
-  }
-  
-  .ticker-text {
-    gap: 30px;
-  }
-  
-  .ticker-img {
-    width: auto;
-    height: 50px;
-    max-width: 70px;
-    object-fit: contain;
-  }
-  
   .cta-section {
     padding: 30px 20px;
     margin-top: 40px;
@@ -1296,4 +1104,3 @@ body {
     padding: 14px 28px;
     font-size: 16px;
   }
-}
